@@ -3,33 +3,39 @@ import './App.css';
 import axios from 'axios'
 
 import CardList from './components/CardList'
+import UserForm from './components/UserForm'
 
 class App extends React.Component{
   constructor(){
     super();
     this.state = {
+      userName: 'sierraog',
       githubusers: []
     }
   }
 
-  componentDidMount(){
-    // axios get followers list from myusername and add them to page
-    const myUserName = 'sierraog';
-    axios.get(`https://api.github.com/users/${myUserName}`)
-    .then(data => {
-      const userObject = data.data
-      const myFollowers = userObject.followers_url
+  componentDidMount() {
+    console.log('from component did mount',this.state)
+    this.getFollowers()
+  }
 
-      axios.get(myFollowers)
-      .then(data =>{
-        const userFollowers = data.data
-        userFollowers.forEach(follower => {
-          const followerUserName = follower.login
-          axios.get(`https://api.github.com/users/${followerUserName}`)
+
+  submitUser = newUserName => {
+    this.setState({ userName: newUserName, githubusers: [] }, this.getFollowers)
+  }
+
+  getFollowers = () => {
+    console.log(this.state.userName)
+    axios.get(`https://api.github.com/users/${this.state.userName}`)
+    .then(data => {
+      console.log(data)
+      axios.get(data.data.followers_url)
+      .then(data => {
+        data.data.forEach(follower => {
+          axios.get(`https://api.github.com/users/${follower.login}`)
             .then(data => {
-              const userObject = data.data
-              console.log(this.state.githubusers)
-              this.setState({githubusers: [...this.state.githubusers, userObject]})
+              console.log(this.state)
+              this.setState({ githubusers: [...this.state.githubusers, data.data]})
             })
         })
       })
@@ -37,11 +43,12 @@ class App extends React.Component{
       .catch(error=>{
         console.log('error')
       })
-      }
+  }
 
   render(){
     return (
       <>
+      <UserForm submitUser={this.submitUser}/>
       <CardList githubusers={this.state.githubusers}/>
       </>
     )
