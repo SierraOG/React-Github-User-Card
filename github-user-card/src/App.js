@@ -26,10 +26,7 @@ class App extends React.Component{
 
   getFollowers = () => {
     console.log(this.state.userName)
-    axios.get(`https://api.github.com/users/${this.state.userName}`)
-    .then(data => {
-      console.log(data)
-      axios.get(data.data.followers_url)
+    axios.get(`https://api.github.com/users/${this.state.userName}/followers`)
       .then(data => {
         data.data.forEach(follower => {
           axios.get(`https://api.github.com/users/${follower.login}`)
@@ -39,7 +36,6 @@ class App extends React.Component{
             })
         })
       })
-      })
       .catch(error=>{
         console.log('error')
       })
@@ -48,6 +44,7 @@ class App extends React.Component{
   render(){
     return (
       <>
+      <h1 style={{textAlign: 'center'}}>{this.state.userName}'s followers</h1>
       <UserForm submitUser={this.submitUser}/>
       <CardList githubusers={this.state.githubusers}/>
       </>

@@ -22,15 +22,17 @@ class UserForm extends React.Component {
 
     render(){
         return (
-            <form onSubmit={this.submitform}>
-            <input
-              type="text"
-              value={this.user}
-              name="user"
-              onChange={this.handleChanges}
-            />
-            <button>Find User</button>
-          </form>
+            <div  style={{width: '300px', margin: '0 auto'}}>
+                <form onSubmit={this.submitform}>
+                    <input
+                    type="text"
+                    value={this.user}
+                    name="user"
+                    onChange={this.handleChanges}
+                    />
+                    <button>Find User</button>
+                </form>
+          </div>
         )
     }
 }
