@@ -10,7 +10,8 @@ class App extends React.Component{
     super();
     this.state = {
       userName: 'sierraog',
-      githubusers: []
+      githubusers: [],
+      errorMsg: null,
     }
   }
 
@@ -32,12 +33,12 @@ class App extends React.Component{
           axios.get(`https://api.github.com/users/${follower.login}`)
             .then(data => {
               console.log(this.state)
-              this.setState({ githubusers: [...this.state.githubusers, data.data]})
+              this.setState({ githubusers: [...this.state.githubusers, data.data], errorMsg: null})
             })
         })
       })
       .catch(error=>{
-        console.log('error')
+        this.setState({errorMsg: 'Invalid username. Please try a new username.'})
       })
   }
 
@@ -46,7 +47,10 @@ class App extends React.Component{
       <>
       <h1 style={{textAlign: 'center'}}>{this.state.userName}'s followers</h1>
       <UserForm submitUser={this.submitUser}/>
+      {this.state.errorMsg ? <h3 style={{textAlign: 'center'}}>{this.state.errorMsg}</h3> 
+      :
       <CardList githubusers={this.state.githubusers}/>
+      }
       </>
     )
   }

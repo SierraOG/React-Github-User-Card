@@ -18,6 +18,7 @@ const useStyles = makeStyles({
   },
   media: {
     height: 300,
+    marginBottom: 10,
   },
 });
 
@@ -27,10 +28,10 @@ const UserCard = (props) => {
         <Card className={classes.card}>
             <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                {props.user.login}
+                {props.user.name}
             </Typography>
             <Typography variant="h5" component="h2">
-                {props.user.name}
+                {props.user.login}
             </Typography>
             <CardMedia
                 className={classes.media}
