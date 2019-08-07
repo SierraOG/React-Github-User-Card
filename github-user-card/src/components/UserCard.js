@@ -25,12 +25,12 @@ const useStyles = makeStyles({
 const UserCard = (props) => {
     const classes = useStyles();
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} >
             <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {props.user.name}
             </Typography>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h5" component="h2" >
                 {props.user.login}
             </Typography>
             <CardMedia
@@ -46,9 +46,12 @@ const UserCard = (props) => {
                 Followers: {props.user.followers}
                 <br />
                 Following: {props.user.following}
-                <br />
-                Bio: {props.user.bio}
+                {/* <br /> */}
+                { props.user.bio ? <> <br/> Bio: {props.user.bio} </> : null }
+                <br/>
+                Contributions: 
             </Typography>
+            <img style={{width: '350px'}} src={`http://ghchart.rshah.org/409ba5/${props.user.login}`} alt={`${props.user.login} Github activity chart`} wrapped />
             </CardContent>
         </Card>
     )
